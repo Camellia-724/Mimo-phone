@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#fbf6f3">
+<meta name="description" content="MIMO — a little space just for you. A cozy, interactive virtual mini phone.">
+<title>MIMO · 我的迷你手机</title>
+<style>
+:root{--ink:#393331;--muted:#a39790;--paper:#fffdfb;--pink:#f2e1dd;--line:#eee3dd;--accent:#c49b95;--shadow:0 14px 45px #78665b18}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif;color:var(--ink);background:#f5efeb}
+body{min-height:100svh;padding:clamp(0px,3vw,24px);display:flex;align-items:center;justify-content:center;background:radial-gradient(circle at 15% 5%,#f8e5e7,transparent 36%),linear-gradient(135deg,#f8f2ee,#e9e4e1)}
+button,input,textarea{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}button:active{transform:scale(.98)}
+.shell{width:min(100%,520px);min-height:min(900px,calc(100svh - 24px));background:var(--paper);border:1px solid #e8ddd7;border-radius:30px;box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.status{height:35px;flex-shrink:0;padding:9px 23px 4px;display:flex;justify-content:space-between;font-size:12px;font-weight:650;background:#fffdfb}
+main{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;scrollbar-width:none}main::-webkit-scrollbar{display:none}
+.home,.page{padding:22px 22px 25px}.page{min-height:590px}
+.topline{display:flex;justify-content:space-between;align-items:center;margin:3px 0 22px}.eyebrow{font-size:10px;letter-spacing:1.6px;color:var(--muted)}.brand{font:30px Georgia,serif;margin-top:5px}.brand i{color:var(--accent)}
+.soft{background:#f6eeeb;border:1px solid var(--line);border-radius:16px}.wallbutton{width:42px;height:42px;border:1px solid var(--line);border-radius:15px;background:#fff;font-size:21px}
+.hero{position:relative;overflow:hidden;border-radius:24px;padding:19px;min-height:145px;background:linear-gradient(140deg,#f2e1dd,#f6eeea 65%,#e7e6df)}.hero-title{font:25px Georgia,serif;margin-top:12px}.hero-sub{font-size:11px;color:#8f7b74;margin-top:8px}.hero-emoji{position:absolute;right:18px;bottom:12px;font-size:48px}
+.rowhead{display:flex;justify-content:space-between;align-items:center;margin:22px 1px 13px}.muted{color:var(--muted);font-size:12px}.apps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 8px}.app{border:0;background:transparent;padding:0;min-width:0;color:inherit}.appicon{width:100%;aspect-ratio:1;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:29px;box-shadow:inset 0 0 0 1px #ffffff85}.appname{font-size:11px;display:block;margin-top:7px;white-space:nowrap;color:#615752}.section{font-size:10px;letter-spacing:1.5px;color:var(--muted);margin:22px 0 11px}.reminder{width:100%;display:flex;align-items:center;gap:12px;text-align:left;padding:14px;border-radius:16px}.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.quick button{padding:13px 5px;font-size:12px}
+.bottomnav{height:66px;flex-shrink:0;border-top:1px solid #f0e8e3;display:flex;align-items:center;justify-content:space-around;background:#fffdfb;padding-bottom:env(safe-area-inset-bottom)}.tab{border:0;background:transparent;color:#a59a93;font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px;padding:7px 12px}.tab span{font-size:20px}.tab.active{color:#574844}
+.apphead{display:flex;align-items:center;gap:12px;margin-bottom:20px}.back{width:38px;height:38px;border:1px solid var(--line);border-radius:13px;background:white;font-size:21px}.app-title{font:27px Georgia,serif;margin-top:3px}
+.action{background:#393230;color:white;border:0;border-radius:13px;padding:11px 15px;font-size:12px}.pill{background:#f6e8e6;border:1px solid #efdcda;border-radius:999px;padding:8px 12px;font-size:11px;color:var(--ink)}.field{width:100%;border:1px solid #eadfda;background:#fffaf8;border-radius:13px;padding:12px;font-size:14px;outline:none;color:var(--ink)}.field:focus{border-color:#caa9a4}textarea{resize:vertical}
+.chatbubble{padding:11px 13px;border-radius:16px;background:#f4e9e6;font-size:13px;max-width:85%;margin:9px 0;overflow-wrap:anywhere}.chatbubble.me{margin-left:auto;background:#e9e9e4}
+.photo-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.photo{aspect-ratio:1;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:35px;background:#f0e3df;background-position:center;background-size:cover;overflow:hidden}.photo-label{font-size:12px;margin:7px 2px 9px}
+.progress{height:7px;background:#eee5e0;border-radius:99px;overflow:hidden}.progress>div{height:100%;background:#c8a8a2;border-radius:99px}
+.closet{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.closetitem{border:1px solid var(--line);background:#fffaf8;border-radius:16px;padding:13px 5px;text-align:center;color:var(--ink)}.closetitem.chosen{border-color:#c7a29b;background:#f8eeeb}
+.postcard{padding:14px;margin-bottom:10px}.posttext{font-size:13px;line-height:1.7;overflow-wrap:anywhere}
+.toast{position:sticky;bottom:10px;margin:0 auto 10px;width:max-content;max-width:90%;background:#393230;color:#fff;padding:10px 14px;border-radius:99px;font-size:12px;display:none}
+@media(min-width:650px){body{padding:24px}.shell{min-height:min(900px,calc(100svh - 48px));border-radius:32px}}
+@media(max-width:420px){body{padding:0;background:var(--paper)}.shell{width:100%;min-height:100svh;min-height:100dvh;border:0;border-radius:0;box-shadow:none}.status{padding-left:max(20px,env(safe-area-inset-left));padding-right:max(20px,env(safe-area-inset-right));height:calc(32px + env(safe-area-inset-top));padding-top:calc(8px + env(safe-area-inset-top))}.home,.page{padding:20px 20px calc(24px + env(safe-area-inset-bottom))}.bottomnav{height:calc(64px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom)}.page{min-height:0}.appicon{border-radius:18px}.apps{gap:20px 8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="status"><span id="clock">9:41</span><span>⌁　◉　▰</span></div>
+  <main id="main">
+    <section id="home" class="home">
+      <div class="topline"><div><div class="eyebrow">YOUR LITTLE WORLD</div><div class="brand">dear, <i>you.</i></div></div><button id="wallpaper" class="wallbutton" aria-label="切换壁纸">☼</button></div>
+      <div id="hero" class="hero"><div class="eyebrow" style="color:#927b75">A SMALL NOTE TO SELF</div><div id="greeting" class="hero-title">Take it slow.</div><div class="hero-sub">little things make a life ♡</div><div id="heroemoji" class="hero-emoji">☁️</div></div>
+      <div class="rowhead"><span class="eyebrow">YOUR APPS</span><span class="muted">08 applications</span></div>
+      <div id="apps" class="apps"></div>
+      <div class="section">TODAY'S LITTLE MOMENT</div>
+      <button id="daily" class="soft reminder"><span style="font-size:25px">🌷</span><span style="flex:1"><span style="display:block;font-size:13px">A gentle reminder</span><span id="reminder" class="muted">You don't have to rush.</span></span><span style="color:#b4a49c">↗</span></button>
+      <div class="section">QUICK ACCESS</div>
+      <div class="quick"><button class="soft" data-open="diary">✎　写日记</button><button class="soft" data-open="pet">♡　看宠物</button><button class="soft" data-open="music">♫　听音乐</button></div>
+    </section>
+    <section id="page" class="page" hidden></section>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <nav class="bottomnav" aria-label="底部导航">
+    <button class="tab active" id="navhome"><span>⌂</span>HOME</button>
+    <button class="tab" data-open="social"><span>♡</span>COMMUNITY</button>
+    <button class="tab" data-open="diary"><span>✎</span>MY NOTES</button>
+    <button class="tab" data-open="pet"><span>♧</span>MY PET</button>
+  </nav>
+</div>
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const defs=[['chat','聊天','💌','#f0dfdd'],['gallery','相册','🖼️','#e9e8e0'],['pet','电子宠物','🐰','#f4e8d9'],['music','音乐','🎧','#e8e2ef'],['social','虚拟社交','☁️','#e2eaf0'],['diary','日记','📓','#eee5df'],['dress','换装','🎀','#f3e0e6'],['game','游戏','🧩','#e5eadd']];
+const defaults={messages:[{who:'them',text:'嗨，欢迎来到你的小小世界 ♡'},{who:'them',text:'今天也要对自己温柔一点呀。'}],photos:[{emoji:'🌷',title:'spring day'},{emoji:'☕',title:'slow morning'},{emoji:'🌙',title:'little dream'},{emoji:'🍰',title:'sweet break'}],notes:[],pet:0,coins:12, outfit:0,likes:[],posts:[{emoji:'☕',name:'mori',text:'今天也想慢慢地生活。',likes:3},{emoji:'🌷',name:'sora',text:'路边的小花也有自己的春天。',likes:7}],wall:0,track:0,game:0};
+let data;
+try{const raw=localStorage.getItem('mimo-data');data=raw?{...defaults,...JSON.parse(raw)}:structuredClone(defaults)}catch(e){data=JSON.parse(JSON.stringify(defaults))}
+function save(){try{localStorage.setItem('mimo-data',JSON.stringify(data))}catch(e){toast('浏览器存储空间不足，部分内容可能无法保存。')}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function toast(s){const t=$('toast');t.textContent=s;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',2400)}
+function btn(label,act,cls='action'){return `<button type="button" class="${cls}" data-act="${act}">${label}</button>`}
+function head(title,sub='YOUR LITTLE SPACE'){return `<div class="apphead"><button type="button" class="back" data-act="back" aria-label="返回首页">‹</button><div><div class="eyebrow">${sub}</div><div class="app-title">${title}</div></div></div>`}
+let current=null;
+function open(id){current=id;$('home').hidden=true;$('page').hidden=false;render(id);document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));const t=document.querySelector(`.tab[data-open="${id}"]`);if(t)t.classList.add('active');$('main').scrollTop=0}
+function home(){current=null;$('page').hidden=true;$('home').hidden=false;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));$('navhome').classList.add('active');$('main').scrollTop=0}
+function paintApps(){$('apps').innerHTML=defs.map(a=>`<button type="button" class="app" data-open="${a[0]}" aria-label="打开${a[1]}"><span class="appicon" style="background:${a[3]}">${a[2]}</span><span class="appname">${a[1]}</span></button>`).join('')}
+const fortunes=['You are allowed to grow slowly.','Small steps still take you somewhere.','You deserve the softness you give others.','Good things can begin quietly.','오늘도 수고했어 ♡ 今天也辛苦啦。'];
+function render(id){let p='';
+if(id==='chat')p=head('Messages','A LITTLE HELLO')+`<div class="soft" style="padding:13px;margin-bottom:16px">🧸　<span style="font-size:12px">小小树洞 · 随时可以说说话</span></div><div id="messages" style="min-height:260px">${data.messages.map(m=>`<div class="chatbubble ${m.who==='me'?'me':''}">${esc(m.text)}</div>`).join('')}</div><form id="chatform" style="display:flex;gap:7px;margin-top:16px"><input class="field" name="msg" placeholder="写下你想说的话…" required maxlength="240" autocomplete="off"><button class="action">发送</button></form><p class="muted">本地模拟聊天，不连接真人或 AI。</p>`;
+if(id==='gallery')p=head('Little gallery','YOUR MEMORY BOX')+`<p class="muted">收集今天喜欢的小东西，也可以上传自己的照片。</p><div class="photo-grid" style="margin-top:15px">${data.photos.map((a,i)=>`<div><div class="photo" ${a.src?`style="background-image:url('${a.src}')"`:`style="background:${['#f0e3df','#e8e8df','#e8e1ed','#f2e8d6'][i%4]}"`}>${a.src?'':esc(a.emoji||'📷')}</div><div class="photo-label">${esc(a.title)}</div>${btn('删除','delphoto:'+i,'pill')}</div>`).join('')}</div><div style="margin-top:20px"><label class="muted" for="photofile">选择照片</label><input id="photofile" type="file" accept="image/*" class="field" style="margin-top:6px"><input id="phototitle" class="field" placeholder="给照片取个名字" style="margin-top:8px">${btn('添加到相册','addphoto','action')}</div><p class="muted" style="margin-top:10px">照片保存在当前浏览器；大照片会先压缩，仍请避免上传隐私图片。</p>`;
+if(id==='pet')p=head('Mochi','YOUR TINY FRIEND')+`<div class="soft" style="text-align:center;padding:25px 12px"><div id="petface" style="font-size:86px"> ${['🐰','🐱','🐻','🐣'][data.pet%4]}</div><div style="font:23px Georgia,serif;margin:10px">Mochi</div><div class="muted">你的电子小伙伴 · 永远可爱</div></div><div class="section">HAPPINESS</div><div class="progress"><div style="width:${Math.min(100,35+data.coins*2)}%"></div></div><p class="muted" style="margin-top:8px">爱心点数：${data.coins} ♡</p><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px">${btn('🍓 喂食','feed','pill')}${btn('♡ 摸摸','pet','pill')}${btn('🎨 换伙伴','petchange','pill')}</div><p class="muted" style="margin-top:20px;text-align:center">今天也要一起好好长大。</p>`;
+if(id==='music')p=head('Soft playlist','MUSIC FOR SLOW DAYS')+`<div style="border-radius:22px;background:linear-gradient(145deg,#e7dfe9,#f3e9e5);padding:25px 16px;text-align:center;margin:12px 0 20px"><div style="font-size:76px">${['🌙','☕','☁️'][data.track%3]}</div><div style="font:22px Georgia,serif;margin:14px 0 5px">${['Moonlight walk','Sunday morning','Pink clouds'][data.track%3]}</div><div class="muted">MIMO playlist · demo player</div><div class="progress" style="margin-top:20px"><div style="width:${[35,62,80][data.track%3]}%"></div></div><div style="display:flex;justify-content:center;gap:14px;margin-top:18px">${btn('↶','prev','pill')}${btn('▶ 播放','play','action')}${btn('↷','next','pill')}</div></div><div class="section">UP NEXT</div>${['☾ Moonlight walk','☕ Sunday morning','☁️ Pink clouds'].map((x,i)=>`<button data-act="track:${i}" style="width:100%;display:flex;justify-content:space-between;border:0;border-bottom:1px solid #eee5df;background:transparent;padding:15px 2px;text-align:left;font-size:13px"><span>${x}</span><span class="muted">${i===data.track%3?'NOW PLAYING':'♡'}</span></button>`).join('')}<p class="muted">这是播放界面演示，暂未接入真实音频。</p>`;
+if(id==='social')p=head('Little community','A QUIET CORNER')+`<div class="soft" style="padding:14px"><div style="font-size:13px;margin-bottom:9px">分享一件今天的小事 ♡</div><textarea id="posttext" class="field" rows="3" placeholder="今天看到的云、喝到的咖啡……" maxlength="500"></textarea><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:9px"><span class="muted">本地虚拟社区</span>${btn('发布','post','action')}</div></div><div class="section">LITTLE STORIES</div><div>${data.posts.map((a,i)=>`<div class="soft postcard"><div style="font-size:12px">${esc(a.emoji)}　${esc(a.name)} <span class="muted">· just now</span></div><p class="posttext">${esc(a.text)}</p><button data-act="like:${i}" class="pill">${data.likes.includes(i)?'♥':'♡'} ${a.likes+(data.likes.includes(i)?1:0)}</button></div>`).join('')}</div><p class="muted">社区内容仅当前浏览器可见，尚未连接其他用户。</p>`;
+if(id==='diary')p=head('Dear diary','MY PRIVATE PAGES')+`<div class="soft" style="padding:15px"><div class="eyebrow">${new Date().toLocaleDateString()}</div><textarea id="notetext" class="field" rows="5" style="margin-top:12px" placeholder="亲爱的日记，今天……" maxlength="5000"></textarea><div style="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px"><span class="muted">把心情写下来吧。</span>${btn('保存日记','note','action')}</div></div><div class="section">YOUR ENTRIES (${data.notes.length})</div>${data.notes.length?data.notes.slice().reverse().map((n,i)=>`<div class="soft postcard"><div class="eyebrow">${esc(n.date)}</div><p class="posttext" style="white-space:pre-wrap">${esc(n.text)}</p>${btn('删除','delnote:'+(data.notes.length-1-i),'pill')}</div>`).join(''):'<p class="muted">这里还空空的，等你写下第一篇日记。</p>'}`;
+if(id==='dress')p=head('My closet','DRESS UP YOUR DAY')+`<div style="border-radius:23px;background:linear-gradient(145deg,#f3e4e5,#eee9e4);padding:24px;text-align:center"><div style="font-size:88px">${['👗','🧥','👚','🩰','🎀'][data.outfit%5]}</div><div style="font:21px Georgia,serif;margin-top:8px">Today's look</div><div class="muted">mix & match ♡</div></div><div class="section">CHOOSE YOUR STYLE</div><div class="closet">${[['👗','奶油裙'],['🧥','温柔针织'],['👚','简约日常'],['🩰','芭蕾女孩'],['🎀','甜心配饰']].map((a,i)=>`<button data-act="outfit:${i}" class="closetitem ${data.outfit===i?'chosen':''}"><div style="font-size:30px">${a[0]}</div><div style="font-size:11px;margin-top:7px">${a[1]}</div></button>`).join('')}</div><p class="muted" style="margin-top:15px">搭配你的今日穿搭，找到喜欢的自己。</p>`;
+if(id==='game')p=head('Tiny games','A LITTLE PLAY TIME')+`<div class="soft" style="padding:16px;text-align:center"><div class="eyebrow">GUESS THE NUMBER</div><div style="font:24px Georgia,serif;margin:10px 0">猜猜我的数字 ♡</div><p class="muted">我想了一个 1 到 5 的数字。</p><div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:20px 0">${[1,2,3,4,5].map(n=>btn(n,'guess:'+n,'pill')).join('')}</div><div id="gameout" style="font-size:13px;min-height:22px">${data.game?'累计得分：'+data.game+' ♡':'猜对就能得到爱心！'}</div></div><div class="section">QUICK FUN</div><div class="soft" style="padding:15px"><div style="font-size:13px">☁️ 今日幸运语</div><p id="fortune" style="font:18px/1.6 Georgia,serif">Something lovely is on its way.</p>${btn('再抽一条','fortune','pill')}</div><div class="soft" style="padding:15px;margin-top:10px"><div style="font-size:13px">🫧 深呼吸小休息</div><p class="muted">给自己十秒钟，慢慢吸气，再慢慢呼气。</p>${btn('开始休息','breathe','pill')}<div id="breathout" style="margin-top:9px;font-size:12px"></div></div>`;
+$('page').innerHTML=p;
+}
+paintApps();
+function applyWall(){const colors=[['#f2e1dd','#f6eeea','#e7e6df'],['#e4e8e0','#f5f1e8','#dce5df'],['#e4dfed','#f4edf5','#e9e3f0'],['#f3e4ce','#fbf3e6','#ece3d7']][data.wall%4];$('hero').style.background=`linear-gradient(140deg,${colors[0]},${colors[1]} 65%,${colors[2]})`;$('heroemoji').textContent=['☁️','🌿','🌙','🌼'][data.wall%4];$('greeting').textContent=['Take it slow.','Stay a little wild.','Dream softly.','Bloom in your time.'][data.wall%4]}
+applyWall();
+$('clock').textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',hour12:false});
+$('wallpaper').addEventListener('click',()=>{data.wall=(data.wall+1)%4;applyWall();save()});
+$('daily').addEventListener('click',()=>{$('reminder').textContent=fortunes[Math.floor(Math.random()*fortunes.length)]});
+$('navhome').addEventListener('click',home);
+document.addEventListener('click',async e=>{
+const opener=e.target.closest('[data-open]');if(opener){open(opener.dataset.open);return}
+const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
+if(a==='back'){home();return}
+if(a==='feed'){data.coins+=2;save();render('pet');return}
+if(a==='pet'){data.coins++;save();const f=$('petface');if(f){f.style.transform='scale(1.16) rotate(-7deg)';setTimeout(()=>{if(f)f.style.transform=''},250)}toast('Mochi 开心地蹭了蹭你 ♡');return}
+if(a==='petchange'){data.pet=(data.pet+1)%4;save();render('pet');return}
+if(a==='note'){const t=$('notetext').value.trim();if(!t){toast('写点什么再保存吧 ♡');return}data.notes.push({date:new Date().toLocaleDateString(),text:t});save();render('diary');toast('日记保存好啦 ♡');return}
+if(a.startsWith('delnote:')){data.notes.splice(+a.split(':')[1],1);save();render('diary');return}
+if(a==='post'){const t=$('posttext').value.trim();if(!t){toast('写下你想分享的小事吧。');return}data.posts.unshift({emoji:['🌷','☁️','🍰','🌙'][Math.floor(Math.random()*4)],name:'you',text:t,likes:0});data.likes=[];save();render('social');toast('发布到本地小社区啦 ♡');return}
+if(a.startsWith('like:')){const i=+a.split(':')[1];data.likes.includes(i)?data.likes=data.likes.filter(x=>x!==i):data.likes.push(i);save();render('social');return}
+if(a.startsWith('outfit:')){data.outfit=+a.split(':')[1];save();render('dress');return}
+if(a.startsWith('track:')){data.track=+a.split(':')[1];save();render('music');return}
+if(a==='next'||a==='prev'){data.track=(data.track+(a==='next'?1:2))%3;save();render('music');return}
+if(a==='play'){toast('这是音乐播放器界面演示，尚未连接音频。');return}
+if(a.startsWith('guess:')){const n=+a.split(':')[1],target=Math.floor(Math.random()*5)+1;const out=$('gameout');if(n===target){data.game++;data.coins++;save();out.textContent='猜对啦！♡ +1 爱心'}else out.textContent=`差一点点～我想的是 ${target}，再试一次！`;return}
+if(a==='fortune'){$('fortune').textContent=fortunes[Math.floor(Math.random()*fortunes.length)];return}
+if(a==='breathe'){$('breathout').textContent='慢慢吸气…… 1 · 2 · 3 · 4';setTimeout(()=>{const x=$('breathout');if(x)x.textContent='轻轻呼气…… 1 · 2 · 3 · 4 · 5 · 6'},4000);return}
+if(a==='addphoto'){
+ const file=$('photofile').files[0];if(!file){toast('先选择一张照片哦 ♡');return}
+ if(!file.type.startsWith('image/')){toast('请选择图片文件。');return}
+ const title=$('phototitle').value.trim()||file.name;
+ try{const src=await compressImage(file);data.photos.push({emoji:'📷',title,src});save();render('gallery');toast('照片添加成功 ♡')}catch(err){toast('图片读取失败，请换一张试试。')}return
+}
+if(a.startsWith('delphoto:')){data.photos.splice(+a.split(':')[1],1);save();render('gallery');return}
+});
+function compressImage(file){return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onerror=reject;reader.onload=()=>{const img=new Image();img.onerror=reject;img.onload=()=>{const max=720,scale=Math.min(1,max/Math.max(img.width,img.height)),canvas=document.createElement('canvas');canvas.width=Math.round(img.width*scale);canvas.height=Math.round(img.height*scale);canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);resolve(canvas.toDataURL('image/jpeg',.72))};img.src=reader.result};reader.readAsDataURL(file)})}
+document.addEventListener('submit',e=>{if(e.target.id!=='chatform')return;e.preventDefault();const input=e.target.elements.msg,t=input.value.trim();if(!t)return;data.messages.push({who:'me',text:t});const replies=['我听到啦 ♡','谢谢你愿意告诉我。','今天也记得照顾自己哦。','抱抱你，慢慢来就好。','这个小小的瞬间也值得被记住。'];data.messages.push({who:'them',text:replies[Math.floor(Math.random()*replies.length)]});save();render('chat');$('main').scrollTop=$('main').scrollHeight});
+})();
+</script>
+</body>
+</html>
